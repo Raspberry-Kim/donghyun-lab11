@@ -3,7 +3,7 @@
    매 프레임(1/60초) 확률 rate로 '맞는 길' 하나를 골라 바꾸고, 가끔 아무 칸이나 바꾸거나 쌍안경을 쓰며,
    반짝 판은 멎어 있으면 눌러 본다. 끝(over/end)까지 돌리면서 아래를 매 프레임 확인한다.
    - 바꾸는 중인 열이 아니면 구멍이 없다 · 얼굴 번호는 0..7 · y는 음수가 아니다
-   - 시간은 0..1 · 점수는 수 · 할당량은 음수가 아니다 · 상태는 다섯 가지 중 하나 */
+   - 시간은 0..1 · 점수는 수 · 목표은 음수가 아니다 · 상태는 다섯 가지 중 하나 */
 const {Game,N,WILD}=require('../src/engine.js');
 const seeds=+process.argv[2]||30, rate=+process.argv[3]||0.08;
 const STATUS=new Set(['play','clearing','clear','over','end']);

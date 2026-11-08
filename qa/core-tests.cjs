@@ -1,5 +1,5 @@
 // 동현주 규칙 엔진 검사: node qa/core-tests.cjs
-// 맞춤 판정(가로·세로·ㄱ자·보병), 되돌아오기, 중력과 연쇄, 할당량과 단계 넘기기, 시간, 쌍안경, 섞기, 반짝 판, 규약 예제를 본다.
+// 맞춤 판정(가로·세로·ㄱ자·보병), 되돌아오기, 중력과 연쇄, 목표와 단계 넘기기, 시간, 쌍안경, 섞기, 반짝 판, 규약 예제를 본다.
 const assert=require('assert');
 const Z=require('../src/engine.js'); const {Game,N,KINDS,WILD,quotaOf,barSeconds,baseOf,gainOf}=Z;
 const D=require('../src/donghyun.js'); const {examples,expression}=require('../src/examples.js');
@@ -12,7 +12,7 @@ function withGrid(rows,opts){ const g=new Game(Object.assign({seed:1},opts||{}))
 function run(g,sec){ for(let i=0;i<Math.round(sec*60);i++) g.tick(1/60); }
 function drain(g){ const ev=g.takeEvents(); return ev; }
 
-ok('단계 수치: 할당량 3·3·3·4…12, 막대 32→12초, 점수·시간 기준',()=>{
+ok('단계 수치: 목표 3·3·3·4…12, 막대 32→12초, 점수·시간 기준',()=>{
   assert.deepStrictEqual([1,2,3,4,10,12,13,20].map(quotaOf),[3,3,3,4,10,12,12,12]);
   assert.strictEqual(barSeconds(1),32); assert.strictEqual(Math.round(barSeconds(20)*10)/10,12);
   assert.deepStrictEqual([3,4,5,6].map(baseOf),[30,60,90,120]); assert.deepStrictEqual([3,4,5,7].map(gainOf),[0.08,0.14,0.22,0.22]);
@@ -28,7 +28,7 @@ ok('가로 셋·세로 셋·ㄱ자 다섯을 한 묶음으로 찾는다',()=>{
   const rows2=baseRows(); rows2[5]='5'+rows2[5].slice(1); rows2[6]='5'+rows2[6].slice(1); rows2[7]='555'+rows2[7].slice(3); // ㄱ자 5
   const g2=withGrid(rows2); const gs2=g2.groups(g2.findMatches()); assert.strictEqual(gs2.length,1); assert.strictEqual(gs2[0].length,5);
 });
-ok('보병(*)은 어느 얼굴과도 줄을 이루고 할당량에는 들지 않는다',()=>{
+ok('보병(*)은 어느 얼굴과도 줄을 이루고 목표에는 들지 않는다',()=>{
   const rows=baseRows(); rows[7]='2*2'+rows[7].slice(3).replace(/2/g,'3'); rows[6]=rows[6].replace(/2/g,'3').replace(/3/g,'3');
   const g=withGrid(rows); const hit=g.findMatches(); assert.ok(hit[7][0]&&hit[7][1]&&hit[7][2]);
   const q=g.quota.slice(); g.resolve(hit); assert.strictEqual(g.quota[2],q[2]-2); const ev=drain(g); const m=ev.find(e=>e.t==='match'); assert.ok(m.wild); assert.strictEqual(m.points,baseOf(3)*2);
@@ -74,7 +74,7 @@ ok('잡으면 시간이 차고 1을 넘지 않는다',()=>{
   const g=withGrid(baseRows()); g.time=0.5; g.grid[7][0].k=1; g.grid[7][1].k=1; g.grid[7][2].k=1; g.resolve(g.findMatches()); assert.strictEqual(Math.round(g.time*100),58);
   g.time=0.99; g.grid[7][5].k=1; g.grid[7][6].k=1; g.grid[7][7].k=1; g.grid[7][5].pop=-1; g.resolve(g.findMatches()); assert.strictEqual(g.time,1);
 });
-ok('할당량을 다 채우면 막대가 멎고(clearing) 멎은 뒤 보너스와 다음 단계',()=>{
+ok('목표를 달성하면 막대가 멎고(clearing) 멎은 뒤 보너스와 다음 단계',()=>{
   const g=withGrid(baseRows(),{level:1}); for(let k=0;k<KINDS;k++) g.quota[k]=0; g.quota[1]=3;
   g.grid[7][0].k=1; g.grid[7][1].k=1; g.grid[7][2].k=1; g.time=0.6; g.resolve(g.findMatches());
   assert.strictEqual(g.status,'clearing'); assert.ok(g.frozen); const t0=g.time; run(g,1.5); assert.ok(g.time>=t0-1e-9,'멎은 동안 시간이 줄었다');
@@ -97,7 +97,7 @@ ok('길이 없으면 판을 새로 섞는다(시간은 간다)',()=>{
   const g=withGrid(rows); assert.ok(!g.anyHit(g.findMatches())); assert.strictEqual(g.moves().length,0,'길 없는 판이어야 한다');
   const t0=g.time; run(g,0.2); const ev=drain(g); assert.ok(ev.some(e=>e.t==='shuffle')); assert.ok(g.moves().length>0); assert.ok(g.time<t0);
 });
-ok('반짝 판을 누르면 그 얼굴을 모두 잡고 할당량이 준다',()=>{
+ok('반짝 판을 누르면 그 얼굴을 모두 잡고 목표이 준다',()=>{
   const g=withGrid(baseRows(),{level:2}); g.grid[3][3]=T(0,{special:true}); const cnt=[].concat(...g.grid).filter(t=>t.k===0&&!t.special).length;
   const q=g.quota[0]; assert.ok(g.press(3,3)); const ev=drain(g); const sp=ev.find(e=>e.t==='special'); assert.strictEqual(sp.n,cnt+1); assert.strictEqual(g.quota[0],Math.max(0,q-sp.n));
   run(g,1.5); for(let r=0;r<N;r++) for(let c=0;c<N;c++) assert.ok(g.grid[r][c]&&g.grid[r][c].y===0);

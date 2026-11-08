@@ -20,7 +20,7 @@ const H='window.__donghyunzooo';
   await p.click('#begin'); assert.strictEqual(await G('Z.ready'),false); assert.ok(await p.$eval('#ready',e=>e.hidden)); await p.waitForTimeout(400); assert.ok((await G('g.time'))<t0,'시작 뒤 시간이 흐른다'); ok('첫 화면: 시작 전 멈춤 · 시작 뒤 흐름');
   // 1) 시작 상태
   assert.strictEqual(await G('g.level'),1); assert.strictEqual(await G('g.hints'),3); assert.ok(await G('g.moves().length>0'));
-  assert.strictEqual(await p.$eval('#quota',e=>e.children.length),7); ok('시작: 1단계 · 쌍안경 3 · 할당 일곱 줄');
+  assert.strictEqual(await p.$eval('#quota',e=>e.children.length),7); ok('시작: 1단계 · 쌍안경 3 · 목표 일곱 줄');
   // 2) 키보드: 커서 두고 X → 집힘, 방향 → 바꿈 → 잡힘
   await settle(); let m=await amove(); let s0=await G('g.score');
   await p.evaluate(`${H}.cursor=${JSON.stringify(m.a)}`); await p.focus('#board'); await p.keyboard.press('KeyX');
@@ -52,10 +52,10 @@ const H='window.__donghyunzooo';
   await p.fill('#code',prog(99,3)); await p.click('#run'); assert.ok((await p.$eval('#result',e=>e.textContent)).includes('99'));
   await p.fill('#code',prog(3,12)); await p.click('#run'); assert.ok((await p.$eval('#result',e=>e.textContent)).includes('12'));
   await p.fill('#code','그냥 글'); await p.click('#run'); assert.ok((await p.$eval('#result',e=>e.textContent)).includes('동현랭 오류')); ok('규약 오류: 개수·범위·동현랭 오류를 알려 준다');
-  // 10) 예제 04(20단계)로 시작 → 할당 채우면 clearing → end 카드
+  // 10) 예제 04(20단계)로 시작 → 목표 달성하면 clearing → end 카드
   await p.selectOption('#example','last'); await p.click('#run'); assert.strictEqual(await G('g.level'),20); assert.strictEqual(await G('g.hints'),9);
-  // 할당을 다 채운 상태로 두고 한 번 잡으면 막대가 멎고(clearing) 보너스 뒤 end
-  await settle(); m=await amove(); await p.evaluate(`(()=>{const g=${H}.game;for(let k=0;k<7;k++)g.quota[k]=0;})()`); // 할당은 잡는 순간 검사되므로 0으로 두고 한 번 잡는다
+  // 목표를 다 채운 상태로 두고 한 번 잡으면 막대가 멎고(clearing) 보너스 뒤 end
+  await settle(); m=await amove(); await p.evaluate(`(()=>{const g=${H}.game;for(let k=0;k<7;k++)g.quota[k]=0;})()`); // 목표는 잡는 순간 검사되므로 0으로 두고 한 번 잡는다
   await p.evaluate(`${H}.pick(${JSON.stringify(m.a)});${H}.pick(${JSON.stringify(m.b)})`);
   let sawClearing=false; for(let i=0;i<100;i++){ await p.evaluate(`${H}.tick(0.05)`); if(await G('g.status==="clearing"')) sawClearing=true; if(await G('g.status==="end"')) break; }
   assert.ok(sawClearing,'먼저 clearing을 지나야 한다');

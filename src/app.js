@@ -68,7 +68,7 @@ function parseSet(out){
   return {level:L,hints:H};
 }
 function setCard(s){
-  $('#set-card').innerHTML=[['시작 단계',s.level+'단계'],['쌍안경',s.hints+'개'],['할당량',quotaOf(s.level)+'마리씩']].map(([a,b])=>`<div><span>${a}</span><strong>${b}</strong></div>`).join('');
+  $('#set-card').innerHTML=[['시작 단계',s.level+'단계'],['쌍안경',s.hints+'개'],['목표',quotaOf(s.level)+'마리씩']].map(([a,b])=>`<div><span>${a}</span><strong>${b}</strong></div>`).join('');
   $('#stamp-level').innerHTML=`${s.level} <span>단계</span>`;$('#stamp-hint').innerHTML=`${s.hints} <span>쌍안경</span>`;
 }
 const result=(t,kind)=>{const r=$('#result');r.textContent=t;r.dataset.kind=kind||'';};
@@ -123,11 +123,11 @@ function draw(){
   const banner=(big,small,bg)=>{ ctx.fillStyle=bg; ctx.fillRect(0,SIZE/2-52,SIZE,104); ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.font='400 34px "Black Han Sans","Pretendard",sans-serif'; ctx.fillText(big,SIZE/2,SIZE/2-(small?12:0)); if(small){ ctx.font='600 15px "Pretendard",sans-serif'; ctx.fillText(small,SIZE/2,SIZE/2+24); } };
   if(game.status==='clear') banner(`LEVEL ${game.level} CLEAR`,`+${lastBonus.toLocaleString()} · 다음은 LEVEL ${Math.min(MAX_LEVEL,game.level+1)}`,'rgba(63,90,58,.88)');
-  else if(game.status==='clearing') banner('할당량 끝!','연쇄가 멎으면 다음 단계','rgba(63,90,58,.7)');
+  else if(game.status==='clearing') banner('목표 달성!','연쇄가 멎으면 다음 단계','rgba(63,90,58,.7)');
   else if(paused&&!finished) banner('멈춤',pauseWhy,'rgba(46,42,56,.8)');
 }
 let lastBonus=0;
-/* 할당량 표 */
+/* 목표 표 */
 let quotaHtmlKey='';
 function renderQuota(){
   if(!game) return;
@@ -158,7 +158,7 @@ function handle(e){
     case 'match': if(e.chain>1){ SND.play('chain',e.chain); flash(`${e.chain}연쇄 +${e.points.toLocaleString()}`); } else { SND.play('pop',e.n); flash(`+${e.points.toLocaleString()}`); }
       if(e.wild) SND.play('sparkle'); status(`LEVEL ${game.level} · ${e.wild?'보병과 함께 ':''}${e.n}마리 잡았다${e.chain>1?` · ${e.chain}연쇄`:''}`); break;
     case 'special': SND.play('special'); flash(`반짝! ${NAMES[e.k]} ${e.n}마리 +${e.points.toLocaleString()}`); status(`LEVEL ${game.level} · 반짝 판으로 ${NAMES[e.k]} ${e.n}마리를 한꺼번에 잡았다`); break;
-    case 'quota': status(`LEVEL ${game.level} · 할당량을 다 채웠다 · 연쇄가 멎으면 다음 단계`); sel=null; break;
+    case 'quota': status(`LEVEL ${game.level} · 목표를 달성했다 · 연쇄가 멎으면 다음 단계`); sel=null; break;
     case 'level': lastBonus=e.bonus; SND.play('level'); flash(`LEVEL ${e.level} 끝 +${e.bonus.toLocaleString()}`); break;
     case 'newlevel': lowWarned=false; sel=null; status(`LEVEL ${e.level} · 얼굴마다 ${quotaOf(e.level)}마리씩 · 막대는 ${Math.round(window.Zooo.barSeconds(e.level))}초`); break;
     case 'shuffle': SND.play('swish'); flash('길이 없어 새로 섞었다'); status(`LEVEL ${game.level} · 바꿀 자리가 없어 판을 새로 섞었다`); sel=null; break;

@@ -13,7 +13,7 @@
 <header class="header">
   <a class="brand" href="#" aria-label="동현주 첫 화면으로"><span class="brand-main"><img class="brand-icon" src="__BRAND_ICON__" alt="" width="96" height="96">동현<span>주</span><sup>TM</sup></span><i class="brand-divider"></i><span class="brand-sub">MATCH THREE LAB<small>같은 얼굴 셋을 나란히 맞추면 잡힌다</small></span></a>
   <a class="doi-badge" href="https://doi.org/10.5281/zenodo.24048918" target="_blank" rel="noopener" aria-label="동현주 Zenodo DOI 10.5281/zenodo.24048918" title="Zenodo DOI (모든 버전)"><b>DOI</b><span>10.5281/zenodo.24048918</span></a>
-  <div class="edition">v0.02<button id="sound" class="icon-btn" aria-label="효과음 켜기·끄기" title="효과음 (M)" aria-pressed="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="snd-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="snd-off" d="m16 9 6 6m0-6-6 6"/></svg></button><button id="theme" class="icon-btn" aria-label="밝은 화면과 어두운 화면 전환" title="화면 전환" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
+  <div class="edition">v0.03<button id="sound" class="icon-btn" aria-label="효과음 켜기·끄기" title="효과음 (M)" aria-pressed="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="snd-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="snd-off" d="m16 9 6 6m0-6-6 6"/></svg></button><button id="theme" class="icon-btn" aria-label="밝은 화면과 어두운 화면 전환" title="화면 전환" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
 </header>
 <main>
 __SERIES_NAV__
@@ -77,7 +77,7 @@ __SERIES_NAV__
         <div class="file-row"><button id="save">.dh 저장</button><label class="file-label">.dh 열기<input id="open" type="file" accept=".dh,.txt,text/plain" hidden></label></div>
       </div>
     </div>
-    <div class="workflow"><span>동현랭 코드</span><b>→</b><span>시작 단계 · 쌍안경</span><b>→</b><span>시작</span><b>→</b><span>얼굴 셋 맞추기</span><b>→</b><span>할당량 채우고 다음 단계</span><b>→</b><span>점수 기록</span></div>
+    <div class="workflow"><span>동현랭 코드</span><b>→</b><span>시작 단계 · 쌍안경</span><b>→</b><span>시작</span><b>→</b><span>얼굴 셋 맞추기</span><b>→</b><span>목표 달성하고 다음 단계</span><b>→</b><span>점수 기록</span></div>
   </section>
 
   <section class="tab-panel document" id="tab-protocol" hidden>
@@ -101,7 +101,7 @@ __SERIES_NAV__
         <h3>단계</h3>
         <ul>
           <li>1~3단계는 얼굴마다 <strong>3마리</strong>, 4단계부터 하나씩 늘어 12단계부터는 <strong>12마리</strong>다. 일곱 얼굴을 모두 채우면 다음 단계다. 20단계를 마치면 끝이다.</li>
-          <li>시간 막대가 비는 데 1단계는 <strong>32초</strong>, 단계마다 1.1초씩 짧아져 20단계는 <strong>12초</strong>다. 셋을 잡으면 8%, 넷은 14%, 다섯 이상은 22%가 다시 찬다. 할당량을 다 채우면 막대가 멎고, 다음 단계는 가득 찬 막대로 시작한다.</li>
+          <li>시간 막대가 비는 데 1단계는 <strong>32초</strong>, 단계마다 1.1초씩 짧아져 20단계는 <strong>12초</strong>다. 셋을 잡으면 8%, 넷은 14%, 다섯 이상은 22%가 다시 찬다. 목표를 달성하면 막대가 멎고, 다음 단계는 가득 찬 막대로 시작한다.</li>
         </ul>
         <h3>점수</h3>
         <ul>
@@ -128,7 +128,7 @@ __SERIES_NAV__
           <li>왼쪽(휴대폰은 위) 막대가 시간이다. 비면 끝이고, 그때 남아 있던 길을 모두 보여 준다. 바꿀 자리가 하나도 없으면 판을 새로 섞는다. 시간은 계속 간다.</li>
         </ul>
         <h3>얼굴들</h3>
-        <p>포동이 · 슈슈 · 라이언 · 초파리 · 둠가이 · 기사 · 꼬리콥터, 일곱 얼굴이 판을 채운다. 3단계부터 가끔 <strong>보병</strong>이 내려오는데, 어느 얼굴과도 줄을 이루고 할당량에는 들지 않는다. 2단계부터는 얼굴이 계속 바뀌는 <strong>반짝 판</strong>이 드물게 내려온다. 누르면 그 순간 보이는 얼굴을 판에서 모두 잡는다.</p>
+        <p>포동이 · 슈슈 · 라이언 · 초파리 · 둠가이 · 기사 · 꼬리콥터, 일곱 얼굴이 판을 채운다. 3단계부터 가끔 <strong>보병</strong>이 내려오는데, 어느 얼굴과도 줄을 이루고 목표에는 들지 않는다. 2단계부터는 얼굴이 계속 바뀌는 <strong>반짝 판</strong>이 드물게 내려온다. 누르면 그 순간 보이는 얼굴을 판에서 모두 잡는다.</p>
       </div>
       <div>
         <h3>조작</h3>
@@ -143,7 +143,7 @@ __SERIES_NAV__
           <li>휴대폰은 두 번 두드려도 확대되지 않고 판에서 손가락을 끌어도 화면이 밀리지 않는다. 다른 탭을 보거나 창을 벗어나면 시간이 멎는다.</li>
         </ul>
         <h3>끝</h3>
-        <p>시간 막대가 비면 끝이다. 20단계의 할당량까지 채우면 모든 단계를 마친 것이다. 점수를 최대한 올려 보자.</p>
+        <p>시간 막대가 비면 끝이다. 20단계의 목표까지 달성하면 모든 단계를 마친 것이다. 점수를 최대한 올려 보자.</p>
       </div>
     </div>
   </section>
@@ -153,8 +153,8 @@ __SERIES_NAV__
     <div class="doc-columns">
       <div>
         <h3>원작</h3>
-        <p>이 놀이는 Robot Communications의 브라우저 게임(2002~2003)으로 시작해 Game Boy Advance판 「Zooo」(2003, Success)와 Nintendo DS판 「Zoo Keeper」(2004~2005)로 나온 동물 얼굴 셋 맞추기 퍼즐의 보통 모드(Normal)를 따른다. 8×8 판, 이웃한 둘만 바꾸기, 맞지 않으면 되돌아오기, 얼굴마다 정해진 수를 잡으면 다음 단계, 잡을수록 다시 차는 시간 막대, 길이 없으면 판 새로 섞기, 쌍안경(힌트), 얼굴이 바뀌는 특별 판, 연쇄 중에도 바꿀 수 있는 점이 원작의 규칙이다(<a href="https://en.wikipedia.org/wiki/Zoo_Keeper_(2003_video_game)" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://giantbomb.com/wiki/Games/Zoo_Keeper" target="_blank" rel="noopener">Giant Bomb</a>, <a href="https://worthplaying.com/article/2005/1/29/reviews/22078-nintendo-ds-review-zoo-keeper/" target="_blank" rel="noopener">Worthplaying</a>, <a href="https://tvtropes.org/pmwiki/pmwiki.php/VideoGame/ZooKeeper2003" target="_blank" rel="noopener">TV Tropes</a>). 보통 모드가 스무 단계인 것과 1~3단계 할당량 3마리, 그 뒤 하나씩 느는 것은 DS판 평을 따랐다(<a href="https://games.kikizo.com/reviews/ds/zookeeper.asp" target="_blank" rel="noopener">Kikizo</a>). GBA판 「Zooo」의 토끼처럼 드물게 나오는 여덟째 얼굴은 보병이 맡는다(<a href="https://retroachievements.org/game/6620" target="_blank" rel="noopener">RetroAchievements</a>). 동현주라는 이름은 Zooo의 '주(Zoo)'에서 따왔다.</p>
-        <p>동현주는 보통 모드만 만들었다. 토코톤·퀘스트·타임어택·대전 모드는 없다. 구체적인 수치(할당량 최대 12, 막대 32→12초, 점수 배분, 5,000점마다 쌍안경)는 동현주가 정한 것이다.</p>
+        <p>이 놀이는 Robot Communications의 브라우저 게임(2002~2003)으로 시작해 Game Boy Advance판 「Zooo」(2003, Success)와 Nintendo DS판 「Zoo Keeper」(2004~2005)로 나온 동물 얼굴 셋 맞추기 퍼즐의 보통 모드(Normal)를 따른다. 8×8 판, 이웃한 둘만 바꾸기, 맞지 않으면 되돌아오기, 얼굴마다 정해진 수를 잡으면 다음 단계, 잡을수록 다시 차는 시간 막대, 길이 없으면 판 새로 섞기, 쌍안경(힌트), 얼굴이 바뀌는 특별 판, 연쇄 중에도 바꿀 수 있는 점이 원작의 규칙이다(<a href="https://en.wikipedia.org/wiki/Zoo_Keeper_(2003_video_game)" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://giantbomb.com/wiki/Games/Zoo_Keeper" target="_blank" rel="noopener">Giant Bomb</a>, <a href="https://worthplaying.com/article/2005/1/29/reviews/22078-nintendo-ds-review-zoo-keeper/" target="_blank" rel="noopener">Worthplaying</a>, <a href="https://tvtropes.org/pmwiki/pmwiki.php/VideoGame/ZooKeeper2003" target="_blank" rel="noopener">TV Tropes</a>). 보통 모드가 스무 단계인 것과 1~3단계 목표 3마리, 그 뒤 하나씩 느는 것은 DS판 평을 따랐다(<a href="https://games.kikizo.com/reviews/ds/zookeeper.asp" target="_blank" rel="noopener">Kikizo</a>). GBA판 「Zooo」의 토끼처럼 드물게 나오는 여덟째 얼굴은 보병이 맡는다(<a href="https://retroachievements.org/game/6620" target="_blank" rel="noopener">RetroAchievements</a>). 동현주라는 이름은 Zooo의 '주(Zoo)'에서 따왔다.</p>
+        <p>동현주는 보통 모드만 만들었다. 토코톤·퀘스트·타임어택·대전 모드는 없다. 구체적인 수치(목표 최대 12, 막대 32→12초, 점수 배분, 5,000점마다 쌍안경)는 동현주가 정한 것이다.</p>
         <h3>권리</h3>
         <p>동현주는 원작 게임의 코드·그림·소리·글을 쓰지 않았다. 얼굴 여덟은 모두 <code>tools/paint.py</code>가 글자 격자로 새로 그린 동현랭 세계관의 인물이다. 동현주는 원작 제작사·발매사(Robot Communications, Success, Ignition Entertainment 등)와 관계가 없고 승인도 받지 않았다.</p>
       </div>
@@ -166,13 +166,13 @@ __SERIES_NAV__
         <h3>글꼴</h3>
         <p>Black Han Sans, Nanum Gothic Coding, Pretendard — SIL Open Font License 1.1.</p>
         <h3>시험</h3>
-        <p><code>node qa/core-tests.cjs</code>가 맞춤 판정(가로·세로·ㄱ자·보병), 되돌아오기, 중력과 연쇄, 할당량과 단계 넘기기, 시간, 쌍안경, 섞기, 반짝 판, 규약 예제를 확인한다. <code>node qa/fuzz-play.cjs</code>는 무작위로 수천 번 바꾸며 판이 비거나 멈추지 않는지 본다. <code>node qa/ui.cjs</code>는 실제 화면에서 키보드·마우스·끌기·반짝 판·규약 오류·단계 마침·끝 카드·멎음·휴대폰 폭을 확인한다.</p>
+        <p><code>node qa/core-tests.cjs</code>가 맞춤 판정(가로·세로·ㄱ자·보병), 되돌아오기, 중력과 연쇄, 목표와 단계 넘기기, 시간, 쌍안경, 섞기, 반짝 판, 규약 예제를 확인한다. <code>node qa/fuzz-play.cjs</code>는 무작위로 수천 번 바꾸며 판이 비거나 멈추지 않는지 본다. <code>node qa/ui.cjs</code>는 실제 화면에서 키보드·마우스·끌기·반짝 판·규약 오류·단계 마침·끝 카드·멎음·휴대폰 폭을 확인한다.</p>
       </div>
     </div>
     <aside class="maker-note"><span class="eyebrow">만든 사람</span><p>인하대학교 의과대학 김동현 교수는 백신학·감염학을 연구한다. 명랑하고 따뜻한 개발을 지향한다.</p></aside>
   </section>
 </main>
-<footer><span>동현주 v0.02 · 인하대학교 의과대학 교수 김동현</span><span>같은 얼굴 셋 · 단계·쌍안경만 동현랭으로</span><span><a href="https://raspberry-kim.github.io/donghyun-lang/" target="_blank" rel="noopener">동현랭</a> · <a href="https://github.com/Raspberry-Kim/donghyun-lang" target="_blank" rel="noopener">동현랭 GitHub</a> · <a href="https://github.com/Raspberry-Kim/donghyun-lab11" target="_blank" rel="noopener">동현주 GitHub</a> · <a href="https://raspberry-kim.github.io/donghyun-lab1/" target="_blank" rel="noopener">동현초</a> · <a href="https://raspberry-kim.github.io/donghyun-lab2/" target="_blank" rel="noopener">동현파</a> · <a href="https://raspberry-kim.github.io/donghyun-lab3/" target="_blank" rel="noopener">동현빌</a> · <a href="https://raspberry-kim.github.io/donghyun-lab4/" target="_blank" rel="noopener">동현전</a> · <a href="https://raspberry-kim.github.io/donghyun-lab5/" target="_blank" rel="noopener">동현콥</a> · <a href="https://raspberry-kim.github.io/donghyun-lab6/" target="_blank" rel="noopener">동현텐</a> · <a href="https://raspberry-kim.github.io/donghyun-lab7/" target="_blank" rel="noopener">동현워</a> · <a href="https://raspberry-kim.github.io/donghyun-lab8/" target="_blank" rel="noopener">동현둠</a> · <a href="https://raspberry-kim.github.io/donghyun-lab9/" target="_blank" rel="noopener">동현크</a> · <a href="https://raspberry-kim.github.io/donghyun-lab10/" target="_blank" rel="noopener">동현몬</a></span></footer>
+<footer><span>동현주 v0.03 · 인하대학교 의과대학 교수 김동현</span><span>같은 얼굴 셋 · 단계·쌍안경만 동현랭으로</span><span><a href="https://raspberry-kim.github.io/donghyun-lang/" target="_blank" rel="noopener">동현랭</a> · <a href="https://github.com/Raspberry-Kim/donghyun-lang" target="_blank" rel="noopener">동현랭 GitHub</a> · <a href="https://github.com/Raspberry-Kim/donghyun-lab11" target="_blank" rel="noopener">동현주 GitHub</a> · <a href="https://raspberry-kim.github.io/donghyun-lab1/" target="_blank" rel="noopener">동현초</a> · <a href="https://raspberry-kim.github.io/donghyun-lab2/" target="_blank" rel="noopener">동현파</a> · <a href="https://raspberry-kim.github.io/donghyun-lab3/" target="_blank" rel="noopener">동현빌</a> · <a href="https://raspberry-kim.github.io/donghyun-lab4/" target="_blank" rel="noopener">동현전</a> · <a href="https://raspberry-kim.github.io/donghyun-lab5/" target="_blank" rel="noopener">동현콥</a> · <a href="https://raspberry-kim.github.io/donghyun-lab6/" target="_blank" rel="noopener">동현텐</a> · <a href="https://raspberry-kim.github.io/donghyun-lab7/" target="_blank" rel="noopener">동현워</a> · <a href="https://raspberry-kim.github.io/donghyun-lab8/" target="_blank" rel="noopener">동현둠</a> · <a href="https://raspberry-kim.github.io/donghyun-lab9/" target="_blank" rel="noopener">동현크</a> · <a href="https://raspberry-kim.github.io/donghyun-lab10/" target="_blank" rel="noopener">동현몬</a></span></footer>
 <script src="./engine.js"></script>
 <script src="./sfx.js"></script>
 <script src="./app.js"></script>

@@ -1,4 +1,4 @@
-/* 동현주 규칙 엔진: 8×8 판에서 같은 얼굴 셋을 나란히 맞춰 잡는다. 중력·연쇄·할당량·시간·쌍안경·반짝 판·보병(만능 얼굴).
+/* 동현주 규칙 엔진: 8×8 판에서 같은 얼굴 셋을 나란히 맞춰 잡는다. 중력·연쇄·목표·시간·쌍안경·반짝 판·보병(만능 얼굴).
    DOM 없이 돌아가므로 qa/에서 Node로 그대로 시험한다. 시간은 tick(dt, 초)으로만 흐른다. */
 (function(root){
 'use strict';
@@ -116,7 +116,7 @@ class Game{
   /* ---------- 점수 ---------- */
   levelMul(){ return 1+(this.level-1)*0.1; }
   addScore(p){ this.score+=p; while(this.score>=this.nextHintAt){ this.nextHintAt+=HINT_STEP; if(this.hints<HINT_MAX){ this.hints++; this.events.push({t:'hintplus'}); } } }
-  /* 맞춘 묶음을 터뜨리고 점수·할당량·시간에 반영한다 */
+  /* 맞춘 묶음을 터뜨리고 점수·목표·시간에 반영한다 */
   resolve(hit){
     const gs=this.groups(hit); if(!gs.length) return false;
     this.chain++; if(this.chain>this.bestChain) this.bestChain=this.chain;
