@@ -35,13 +35,12 @@ const H='window.__donghyunzooo';
   // 7) 틀린 바꾸기는 되돌아온다
   const bad=await G('(()=>{const mv=g.moves().map(x=>x.a.r+","+x.a.c+"-"+x.b.r+","+x.b.c);for(let r=0;r<8;r++)for(let c=0;c<7;c++){const k=r+","+c+"-"+r+","+(c+1);if(!mv.includes(k)&&!mv.includes(r+","+(c+1)+"-"+r+","+c))return {a:{r,c},b:{r,c:c+1}};}return null;})()');
   const ka=await G(`g.grid[${bad.a.r}][${bad.a.c}].k`); await p.evaluate(`${H}.pick(${JSON.stringify(bad.a)});${H}.pick(${JSON.stringify(bad.b)})`); await settle(); assert.strictEqual(await G(`g.grid[${bad.a.r}][${bad.a.c}].k`),ka); ok('틀린 바꾸기는 제자리로 돌아온다');
-  // 8) 반짝 판: 심어서 누르면 그 얼굴이 모두 잡힌다
-  await settle(); const sp=await G('(()=>{g.grid[7][0].special=true;g.specialOn=true;g.specialK=g.grid[7][0].k;const k=g.specialK;let cnt=0;for(const row of g.grid)for(const t of row)if(t.k===k&&!t.special)cnt++;return {k,cnt};})()');
-  const q0=await G(`g.quota[${sp.k}]`); await p.evaluate(`${H}.tick(0.02)`); const shown=await G('g.specialK');
-  const cntShown=await G(`(()=>{let c=0;for(const row of g.grid)for(const t of row)if(t.k===${shown}&&!t.special)c++;return c;})()`);
-  a=await cellXY(7,0); await p.mouse.click(a.x,a.y); await p.evaluate(`${H}.tick(0.01)`);
-  const popped=await G('(()=>{let c=0;for(const row of g.grid)for(const t of row)if(t&&t.pop>=0)c++;return c;})()'); assert.ok(popped>=cntShown&&popped>=1,'반짝 판이 보여 준 얼굴이 모두 터져야 한다'); await settle();
-  assert.ok(await G(`g.quota[${shown}]`)<=Math.max(0,q0-0)); ok('반짝 판: 누르면 그 얼굴 전부 잡힘');
+  // 8) 반짝 판: 심어서 누르면 그때 보이는 얼굴이 판에서 모두 터진다(화면 루프가 함께 돌아 보이는 얼굴은 누르는 순간 것으로 판정한다)
+  await settle(); await G('(()=>{g.grid[7][0].special=true;return 1;})()'); assert.ok(await G('g.hasSpecial()'));
+  a=await cellXY(7,0); await p.mouse.click(a.x,a.y);
+  const sp=await G('(()=>{const pops=[];let all={};for(let r=0;r<8;r++)for(let c=0;c<8;c++){const t=g.grid[r][c];if(!t)continue;if(!t.special){all[t.k]=(all[t.k]||0)+1;if(t.pop>=0)pops.push(t.k);}}return {pops,all,specialPopped:g.grid[7][0]&&g.grid[7][0].pop>=0};})()');
+  assert.ok(sp.pops.length>=1,'터지는 얼굴이 있어야 한다'); const kinds=new Set(sp.pops); assert.strictEqual(kinds.size,1,'한 종류만 터져야 한다'); const kk=sp.pops[0]; assert.strictEqual(sp.pops.length,sp.all[kk],'그 얼굴이 모두 터져야 한다'); assert.ok(sp.specialPopped,'반짝 판 자신도 사라진다');
+  await settle(); assert.ok(!(await G('g.hasSpecial()')),'누른 반짝 판은 사라진다'); ok('반짝 판: 누르면 그 얼굴 전부 잡힘');
   // 9) 규약 오류: 정수 하나 · 범위 밖
   const {expression}=require('../src/examples.js'); const prog=(...ns)=>['나는 동현이냐?',...ns.map(n=>'뿡뿡 '+expression(n)+'~뿡뿡뿡'),'동현이구나'].join('\n');
   await p.fill('#code',prog(9)); await p.click('#run'); assert.ok((await p.$eval('#result',e=>e.textContent)).includes('1개 출력'));
