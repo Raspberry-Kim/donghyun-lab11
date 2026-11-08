@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Donghyunzooo (동현주): a match-three face laboratory in the manner of Zooo / Zoo Keeper Normal mode, with the starting level and binocular allowance set through the esoteric language Donghyun-lang"
+type: software
+version: "0.01"
+date-released: "2026-11-08"
+authors:
+  - family-names: Kim
+    given-names: Dong Hyun
+    orcid: "https://orcid.org/0000-0001-9883-0229"
+    affiliation: "Inha University College of Medicine"
+license: MIT
+repository-code: "https://github.com/Raspberry-Kim/donghyun-lab11"
+url: "https://raspberry-kim.github.io/donghyun-lab11/"
+abstract: >-
+  Donghyunzooo is a browser-based, noncommercial match-three puzzle that
+  follows only the Normal mode of the animal-face puzzle released as Zooo
+  (Game Boy Advance, 2003) and Zoo Keeper (Nintendo DS, 2004-2005), which
+  descend from a 2002-2003 browser game by Robot Communications.
+  On an 8x8 board two adjacent faces are swapped; a swap that does not line
+  up three or more equal faces is reverted. Each of the seven faces has a
+  per-level quota, filled quotas advance the level (up to 20), and a time bar
+  drains and refills as faces are captured. A wildcard face (from level 3)
+  and a flashing tile that captures every face currently shown (from level
+  2) appear occasionally. The only settings, the starting level (1-20) and
+  the number of binocular hints (0-9; default 1 and 3), are chosen through a
+  program written in the esoteric programming language Donghyun-lang.
+  Keyboard, mouse/touch and gamepad input are supported. All eight faces are
+  characters of the Donghyun series redrawn as 16x16 faces; no asset of the
+  original games is used. The MIT license applies to the Donghyunzooo code
+  and documentation; the page fonts are under the SIL Open Font License.
+  See LICENSE and CREDITS.md.
+keywords:
+  - match-three puzzle
+  - Zoo Keeper
+  - esoteric programming language
+  - JavaScript
+references:
+  - type: software
+    title: "Donghyun-lang (동현랭): a Korean esoteric programming language with a browser playground"
+    authors:
+      - family-names: Kim
+        given-names: Dong Hyun
+        orcid: "https://orcid.org/0000-0001-9883-0229"
+        affiliation: "Inha University College of Medicine"
+    version: "1.55"
+    license: MIT
+    repository-code: "https://github.com/Raspberry-Kim/donghyun-lang"
