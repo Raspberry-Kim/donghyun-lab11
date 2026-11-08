@@ -13,6 +13,11 @@ const H='window.__donghyunzooo';
   const settle=async()=>{ for(let i=0;i<120;i++){ await p.evaluate(`${H}.tick(0.05)`); if(await G('g.status==="play"&&!g.swapAnim&&g.grid.every(row=>row.every(t=>t&&t.y===0&&t.pop<0))')) return; } throw new Error('판이 멎지 않는다'); };
   const amove=()=>G('g.moves()[0]');
 
+  // 0) 첫 화면: 시작을 누르기 전에는 시간이 흐르지 않는다
+  assert.strictEqual(await G('Z.ready'),true,'열자마자 준비 상태'); assert.ok(!(await p.$eval('#ready',e=>e.hidden)),'시작 카드가 보인다');
+  let t0=await G('g.time'); await p.waitForTimeout(400); assert.strictEqual(await G('g.time'),t0,'시작 전에는 시간이 줄지 않는다');
+  assert.ok(await p.$eval('#hint',e=>e.disabled),'시작 전 쌍안경 잠김');
+  await p.click('#begin'); assert.strictEqual(await G('Z.ready'),false); assert.ok(await p.$eval('#ready',e=>e.hidden)); await p.waitForTimeout(400); assert.ok((await G('g.time'))<t0,'시작 뒤 시간이 흐른다'); ok('첫 화면: 시작 전 멈춤 · 시작 뒤 흐름');
   // 1) 시작 상태
   assert.strictEqual(await G('g.level'),1); assert.strictEqual(await G('g.hints'),3); assert.ok(await G('g.moves().length>0'));
   assert.strictEqual(await p.$eval('#quota',e=>e.children.length),7); ok('시작: 1단계 · 쌍안경 3 · 할당 일곱 줄');
@@ -77,6 +82,7 @@ const H='window.__donghyunzooo';
   assert.ok(await q.evaluate(()=>document.documentElement.scrollWidth<=390),'가로로 넘치면 안 된다');
   await q.evaluate(`(()=>{const Z=${H};for(let i=0;i<120;i++){Z.tick(0.05);const g=Z.game;if(!g.swapAnim&&g.grid.every(row=>row.every(t=>t&&t.y===0&&t.pop<0)))break;}})()`);
   await q.$eval('#board',e=>e.scrollIntoView({block:'center'})); await q.waitForTimeout(100);
+  const bg=await q.$eval('#begin',e=>{const r=e.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};}); await q.touchscreen.tap(bg.x,bg.y); assert.strictEqual(await q.evaluate(`${H}.ready`),false,'휴대폰에서 시작을 두드리면 시작한다'); await q.waitForTimeout(100);
   const mm=await q.evaluate(`${H}.game.moves()[0]`); const c1=await q.$eval('#board',(e,m)=>{const r=e.getBoundingClientRect();return {x:r.left+(m.a.c+0.5)*r.width/8,y:r.top+(m.a.r+0.5)*r.height/8};},mm);
   await q.touchscreen.tap(c1.x,c1.y); assert.deepStrictEqual(await q.evaluate(`${H}.sel`),mm.a); ok('휴대폰 390px: 판이 들어오고 탭으로 집힌다');
   const sm=await q.$eval('.series-strip',e=>e.querySelectorAll('.series-item').length); assert.strictEqual(sm,12);

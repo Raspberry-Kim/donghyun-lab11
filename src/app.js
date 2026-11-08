@@ -141,7 +141,7 @@ function renderHud(){
   if(!game) return;
   $('#score').textContent=game.score.toLocaleString();
   $('#level-label').textContent='LEVEL '+game.level;
-  $('#hint-n').textContent=game.hints; $('#hint').disabled=finished||game.hints<=0||game.status!=='play';
+  $('#hint-n').textContent=game.hints; $('#hint').disabled=finished||ready||game.hints<=0||game.status!=='play';
   $('#week-best').textContent=Math.max(loadBest().weekBest||0,game.score).toLocaleString();
   const tb=$('#timebar'), pct=Math.round(game.time*100); tb.firstElementChild.style.setProperty('--h',pct+'%'); tb.firstElementChild.style.setProperty('--w',pct+'%'); tb.setAttribute('aria-valuenow',pct);
   tb.classList.toggle('low',game.time<0.25&&!game.frozen&&game.status==='play'); tb.classList.toggle('frozen',game.frozen&&game.status!=='over');
@@ -180,11 +180,21 @@ function finish(allClear,movesLeft){
   status(allClear?'모든 단계를 마쳤다':`끝 · LEVEL ${game.level}에서 시간이 다했다`);
   renderHud(); draw();
 }
-function newGame(){
+/* 첫 화면: 판은 보이지만 시작을 누르기 전에는 시간이 흐르지 않는다 */
+let ready=false;
+function newGame(opts){
   game=new Game({level:settings.level,hints:settings.hints}); sel=null; finished=false; lowWarned=false; quotaHtmlKey='';
-  $('#over').hidden=true; renderHud(); draw();
-  status(`LEVEL ${game.level} · 얼굴마다 ${quotaOf(game.level)}마리씩 · 쌍안경 ${game.hints}개`);
+  ready=!!(opts&&opts.ready); $('#over').hidden=true; $('#ready').hidden=!ready;
+  if(ready){ $('#ready-note').textContent=`LEVEL ${game.level}부터 · 쌍안경 ${game.hints}개`; $('#ready-hint').textContent=`얼굴마다 ${quotaOf(game.level)}마리씩 · 시작하면 시간이 흐른다`; }
+  renderHud(); draw();
+  status(ready?`시작을 누르면 LEVEL ${game.level}부터 · 쌍안경 ${game.hints}개`:`LEVEL ${game.level} · 얼굴마다 ${quotaOf(game.level)}마리씩 · 쌍안경 ${game.hints}개`);
 }
+function begin(){
+  if(!ready||!game) return; ready=false; $('#ready').hidden=true; last=0; resume();
+  status(`LEVEL ${game.level} · 얼굴마다 ${quotaOf(game.level)}마리씩 · 쌍안경 ${game.hints}개`); board.focus({preventScroll:true});
+}
+$('#begin').onclick=()=>begin();
+$('#ready').addEventListener('click',e=>{ if(e.target===e.currentTarget) begin(); });
 
 /* ---------- 입력: 공통 ---------- */
 function cellAt(ev){ const r=board.getBoundingClientRect(); const c=Math.floor((ev.clientX-r.left)/r.width*N), rr=Math.floor((ev.clientY-r.top)/r.height*N); if(c<0||rr<0||c>=N||rr>=N) return null; return {r:rr,c}; }
@@ -193,7 +203,7 @@ const adjacent=(a,b)=>a&&b&&Math.abs(a.r-b.r)+Math.abs(a.c-b.c)===1;
 function trySwap(a,b){ const r=game.swap(a,b); if(!r.ok){ if(r.why==='unsettled') SND.play('buzz'); return false; } sel=null; return true; }
 /* 한 칸을 '집는다': 반짝 판은 바로 터지고, 고른 칸을 다시 집으면 풀리고, 이웃을 집으면 바꾼다 */
 function pick(p){
-  if(!game||finished||game.status!=='play') return;
+  if(!game||finished||ready||game.status!=='play') return;
   const t=game.grid[p.r][p.c];
   if(t&&t.special&&game.settled(t)){ game.press(p.r,p.c); sel=null; return; }
   if(sel&&same(sel,p)){ sel=null; return; }
@@ -215,6 +225,7 @@ board.addEventListener('contextmenu',e=>e.preventDefault());
 const DIRS={up:[-1,0],down:[1,0],left:[0,-1],right:[0,1]};
 function key(k){
   if(!game) return false; resume();
+  if(ready){ if(k==='x'||k==='enter'){ begin(); return true; } return false; }
   if(k in DIRS){ cursorOn=true; const [dr,dc]=DIRS[k];
     if(sel&&!finished&&game.status==='play'){ const nb={r:sel.r+dr,c:sel.c+dc}; if(nb.r>=0&&nb.c>=0&&nb.r<N&&nb.c<N){ cursor=nb; if(trySwap(sel,nb)) return true; } sel=null; return true; }
     cursor={r:Math.max(0,Math.min(N-1,cursor.r+dr)),c:Math.max(0,Math.min(N-1,cursor.c+dc))}; return true; }
@@ -250,7 +261,7 @@ function loop(ts){
   requestAnimationFrame(loop); now=ts;
   if(!game) return;
   const dt=last?Math.min(0.1,(ts-last)/1000):0; last=ts;
-  if(!paused&&tab==='play'&&!finished){
+  if(!paused&&tab==='play'&&!finished&&!ready){
     game.tick(dt);
     for(const e of game.takeEvents()) handle(e);
     if(game.time<0.2&&!game.frozen&&game.status==='play'&&!lowWarned){ lowWarned=true; SND.play('alarm'); }
@@ -270,7 +281,7 @@ function start(){
   result((p.note?p.note+' ':'')+`${p.level}단계부터 쌍안경 ${p.hints}개로 새 판을 시작했다. 이웃한 두 얼굴을 바꿔 같은 얼굴 셋을 나란히 놓아 보자.`);
   newGame();
 }
-setCard(settings); newGame();
+setCard(settings); newGame({ready:true});
 /* 시험용 손잡이(qa/): 판 상태·입력을 밖에서 다룬다 */
-window.__donghyunzooo={get game(){return game;},get sel(){return sel;},get paused(){return paused;},get cursor(){return cursor;},set cursor(p){cursor=p;cursorOn=true;},key,pick,start,newGame,parseSet,tick:dt=>{ if(game){ game.tick(dt); for(const e of game.takeEvents()) handle(e); renderHud(); draw(); } }};
+window.__donghyunzooo={get game(){return game;},get ready(){return ready;},begin,get sel(){return sel;},get paused(){return paused;},get cursor(){return cursor;},set cursor(p){cursor=p;cursorOn=true;},key,pick,start,newGame,parseSet,tick:dt=>{ if(game){ game.tick(dt); for(const e of game.takeEvents()) handle(e); renderHud(); draw(); } }};
 })();
