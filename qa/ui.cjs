@@ -68,11 +68,11 @@ const H='window.__donghyunzooo';
   // 13) 보이지 않으면 멎는다
   await p.click('#again'); await p.evaluate(`Object.defineProperty(document,'hidden',{value:true,configurable:true});document.dispatchEvent(new Event('visibilitychange'))`);
   assert.strictEqual(await G('Z.paused'),true); await p.evaluate(`Object.defineProperty(document,'hidden',{value:false,configurable:true});document.dispatchEvent(new Event('visibilitychange'))`); assert.strictEqual(await G('Z.paused'),false); ok('다른 탭을 보면 멎고 돌아오면 간다');
-  // 14) 시리즈 띠: 12개, 한 줄(1440·1280)
+  // 14) 시리즈 띠: 16개, 두 줄 8+8(1440·1280) · 동현랭도 반 폭
   for(const w of [1440,1280]){ await p.setViewportSize({width:w,height:900}); await p.waitForTimeout(100);
-    const st=await p.$eval('.series-strip',e=>({n:e.querySelectorAll('.series-item').length,h:e.getBoundingClientRect().height,tops:new Set([...e.querySelectorAll('.series-item')].map(i=>Math.round(i.getBoundingClientRect().top))).size}));
-    assert.strictEqual(st.n,12); assert.strictEqual(st.tops,1,`${w}px에서 띠가 한 줄이어야 한다`); }
-  ok('시리즈 띠: 12개 · 1440/1280에서 한 줄');
+    const st=await p.$eval('.series-strip',e=>{ const it=[...e.querySelectorAll('.series-item')]; const tops=[...new Set(it.map(i=>Math.round(i.getBoundingClientRect().top)))]; const L=e.querySelector('.series-item[data-series="lang"]'); return {n:it.length,perRow:tops.map(t=>it.filter(i=>Math.round(i.getBoundingClientRect().top)===t).length).join(),langW:L.getBoundingClientRect().width,otherW:it[1].getBoundingClientRect().width,over:e.scrollWidth>e.clientWidth}; });
+    assert.strictEqual(st.n,16); assert.strictEqual(st.perRow,'8,8',`${w}px에서 띠가 두 줄(8+8)이어야 한다`); assert.ok(Math.abs(st.langW-st.otherW)<2,'16개(짝수)라 동현랭도 반 폭'); assert.ok(!st.over,'띠가 넘치지 않는다'); }
+  ok('시리즈 띠: 16개 · 1440/1280에서 두 줄 8+8 · 동현랭 반 폭');
   await p.close();
   // 15) 휴대폰 폭: 판이 화면 안에 들어오고, 탭으로 집힌다
   const q=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2,hasTouch:true,isMobile:true});
@@ -85,7 +85,7 @@ const H='window.__donghyunzooo';
   const bg=await q.$eval('#begin',e=>{const r=e.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};}); await q.touchscreen.tap(bg.x,bg.y); assert.strictEqual(await q.evaluate(`${H}.ready`),false,'휴대폰에서 시작을 두드리면 시작한다'); await q.waitForTimeout(100);
   const mm=await q.evaluate(`${H}.game.moves()[0]`); const c1=await q.$eval('#board',(e,m)=>{const r=e.getBoundingClientRect();return {x:r.left+(m.a.c+0.5)*r.width/8,y:r.top+(m.a.r+0.5)*r.height/8};},mm);
   await q.touchscreen.tap(c1.x,c1.y); assert.deepStrictEqual(await q.evaluate(`${H}.sel`),mm.a); ok('휴대폰 390px: 판이 들어오고 탭으로 집힌다');
-  const sm=await q.$eval('.series-strip',e=>e.querySelectorAll('.series-item').length); assert.strictEqual(sm,12);
+  const sm=await q.$eval('.series-strip',e=>{ const it=[...e.querySelectorAll('.series-item')]; const L=e.querySelector('.series-item[data-series="lang"]'); return {n:it.length,langW:L.getBoundingClientRect().width,otherW:it[1].getBoundingClientRect().width}; }); assert.strictEqual(sm.n,16); assert.ok(Math.abs(sm.langW-sm.otherW)<2,'휴대폰: 16개(짝수)라 동현랭도 반 폭');
   await q.close(); await b.close();
   if(errs.length){ console.log('콘솔 오류',errs); process.exit(1); }
   console.log(`모두 통과 · ${n}개 · 콘솔 오류 0`);
