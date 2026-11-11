@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 title: "Donghyunzooo (동현주): a match-three face laboratory in the manner of Zooo / Zoo Keeper Normal mode, with the starting level and binocular allowance set through the esoteric language Donghyun-lang"
 type: software
-version: "0.03"
+version: "0.04"
 doi: "10.5281/zenodo.24048918"
-date-released: "2026-11-08"
+date-released: "2026-11-11"
 authors:
   - family-names: Kim
     given-names: Dong Hyun
