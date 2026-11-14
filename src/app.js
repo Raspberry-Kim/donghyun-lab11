@@ -241,7 +241,7 @@ document.addEventListener('keydown',e=>{
   if(e.code==='KeyM'){ SND.set(!SND.on); sndUI(); status(SND.on?'효과음 켬':'효과음 끔'); return; }
   if(tab!=='play') return;
   const k=KEYS[e.code]; if(!k) return;
-  if(el&&el.tagName==='BUTTON'&&(k==='enter'||k==='x'&&e.code==='Space')) return; // 단추 위의 Enter·Space는 단추가 받는다
+  if(el&&el.tagName==='BUTTON'&&(k==='enter'||k==='x'&&e.code==='Space')) return; // 버튼 위의 Enter·Space는 버튼이 받는다
   if(key(k)) e.preventDefault();
 });
 if(window.GP) GP.start({down:k=>{ if(tab==='play') key(k); },up:()=>{},status:t=>status(t),hint:'A 집기 · B 취소 · X 쌍안경',repeat:true});
