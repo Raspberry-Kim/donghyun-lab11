@@ -17,7 +17,7 @@ ok('단계 수치: 목표 3·3·3·4…12, 막대 32→12초, 점수·시간 기
   assert.strictEqual(barSeconds(1),32); assert.strictEqual(Math.round(barSeconds(20)*10)/10,12);
   assert.deepStrictEqual([3,4,5,6].map(baseOf),[30,60,90,120]); assert.deepStrictEqual([3,4,5,7].map(gainOf),[0.08,0.14,0.22,0.22]);
 });
-ok('새 판: 맞춰진 줄이 없고 바꿀 자리가 있다(씨앗 100개)',()=>{
+ok('새 판: 맞춰진 줄이 없고 바꿀 자리가 있다(시드 100개)',()=>{
   for(let s=1;s<=100;s++){ const g=new Game({seed:s}); assert.ok(!g.anyHit(g.findMatches()),'처음부터 맞춰진 줄'); assert.ok(g.moves().length>0,'바꿀 자리 없음');
     for(let r=0;r<N;r++) for(let c=0;c<N;c++) assert.ok(g.grid[r][c].k<KINDS&&!g.grid[r][c].special); }
 });
