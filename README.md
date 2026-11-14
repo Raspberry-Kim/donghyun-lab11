@@ -1,4 +1,4 @@
-# 동현주 v0.06
+# 동현주 v0.07
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24048918.svg)](https://doi.org/10.5281/zenodo.24048918)
 
